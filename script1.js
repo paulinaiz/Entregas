@@ -403,7 +403,7 @@ function actualizarCarritoDOM() {
         fila.innerHTML = `
             <td>
                 <div class="producto-info">
-                    <img src="/imagenes/${getImagenProducto(item.id)}" alt="${item.nombre}">
+                    <img src="imagenes/${getImagenProducto(item.id)}" alt="${item.nombre}">
                     <div class="producto-detalles">
                         <h3>${item.nombre}</h3>
                         <p>$${item.precio.toLocaleString()}</p>

@@ -80,7 +80,7 @@ header {
 
 /*MAIN - PORTADA TITULO*/
 .hero-section {
-    background-image: url("/imagenes/fondo-inicio.png");
+    background-image: url("imagenes/fondo-inicio.png");
     opacity: 0.9;
     background-size: cover;
     background-position: center;

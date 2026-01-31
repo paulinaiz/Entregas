@@ -452,20 +452,20 @@ function actualizarCarritoDOM() {
 //Función auxiliar para obtener la imagen del producto
 function getImagenProducto(id) {
     const imagenes = {
-        1: 'tres galletas arandano.png',
-        2: 'tres gralletas vainilla.png',
-        3: 'tres galletas chispas de chocolate.png',
-        4: 'muffin frambuesa.png',
-        5: 'muffin arandanos.png',
-        6: 'muffin de vainilla.png',
-        7: 'tartaleta maracuya-mango.png',
-        8: 'tartaletta kiwi-frutilla-arandano.png',
-        9: 'tartaletta frutilla-arandano.png',
-        10: 'tartaletta frutilla.png',
-        11: 'tartaletta limon.png',
-        12: 'tartaletta arandano.png',
-        13: 'tartaletta maracuya.png',
-        14: 'tartaletta manzana.png'
+        1: 'tres-galletas-arandano.png',
+        2: 'tres-gralletas-vainilla.png',
+        3: 'tres-galletas-chispas-de-chocolate.png',
+        4: 'muffin-frambuesa.png',
+        5: 'muffin-arandanos.png',
+        6: 'muffin-de-vainilla.png',
+        7: 'tartaleta-maracuya-mango.png',
+        8: 'tartaletta-kiwi-frutilla-arandano.png',
+        9: 'tartaletta-frutilla-arandano.png',
+        10: 'tartaletta-frutilla.png',
+        11: 'tartaletta-limon.png',
+        12: 'tartaletta-arandano.png',
+        13: 'tartaletta-maracuya.png',
+        14: 'tartaletta-manzana.png'
     };
     
     return imagenes[id] || 'libre_de_gluten.png';

@@ -101,6 +101,7 @@ header {
 .titulo p {
     margin-bottom: 3rem;
     color: black;
+    font-family: "Poppins", serif;
 }
 
 .titulo a {

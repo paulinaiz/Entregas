@@ -87,7 +87,7 @@ function agregarAlCarrito(idProducto) {
     
     //verificamos si hay stock disponible
     if (producto.stock <= 0) {
-        alert("Lo sentimos, este producto está agotado");
+        mostrarNotificacion("Lo sentimos, este producto está agotado");
         return;
     }
     
@@ -99,7 +99,7 @@ function agregarAlCarrito(idProducto) {
         if (productoEnCarrito.cantidad < producto.stock) {
             productoEnCarrito.cantidad++;
         } else {
-            alert("No hay suficiente stock disponible");
+            mostrarNotificacion("No hay suficiente stock disponible");
             return;
         }
     } else {                           //si no existe en el carrito
@@ -139,7 +139,7 @@ function guardarCarritoEnLocalStorage() {
     try {
         localStorage.setItem('carritoPasteleria', JSON.stringify(carrito));
     } catch (e) {
-        console.error("Error al guardar carrito en localStorage:", e);
+        mostrarNotificacion("Error al guardar carrito en localStorage:", e);
     }
 }
 
@@ -152,7 +152,7 @@ function cargarCarritoDesdeLocalStorage() {
             carrito = JSON.parse(carritoGuardado);
         }
     } catch (e) {
-        console.error("Error al cargar carrito desde localStorage:", e);
+        mostrarNotificacion("Error al cargar carrito desde localStorage:", e);
         carrito = [];
     }
 }

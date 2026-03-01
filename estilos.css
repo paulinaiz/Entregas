@@ -78,6 +78,35 @@ header {
     padding: 2px 6px;
 }
 
+
+/*Diseño de la lupa*/
+.buscador-contenedor {
+    display: flex;
+    align-items: center;
+    
+    border-radius: 20px;
+    padding: 2px 10px;
+}
+
+#input-busqueda {
+    border: none;
+    background: #f0d0ff;
+    outline: none;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    width: 0; /* Empieza cerrado */
+    transition: width 0.4s ease;
+}
+
+.buscador-contenedor:hover #input-busqueda,
+#input-busqueda:focus {
+    width: 150px; /* Se expande al interactuar */
+}
+
+
+
+
 /*MAIN - PORTADA TITULO*/
 .hero-section {
     background-image: url("imagenes/fondo-inicio.png");
@@ -464,7 +493,7 @@ header {
 }
 
 /*NOTIFICACIONES*/
-.notificacion {
+/*.notificacion {
     position: fixed;
     top: 20px;
     right: 20px;
@@ -518,7 +547,7 @@ header {
 
 .notificacion.salida {
     animation: slideOut 0.3s ease-in forwards;
-}
+}*/
 
 /*HEADER DEL CARRITO*/
 .carrito-header {

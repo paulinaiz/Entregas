@@ -25,6 +25,56 @@ let carrito = [];
 
 //FUNCIONES
 
+// Función buscador palabras clave con la lupa
+const inputBusqueda = document.getElementById('input-busqueda');
+const btnLupa = document.getElementById('btn-lupa');
+
+function ejecutarBusqueda() {
+    const termino = inputBusqueda.value.toLowerCase().trim();
+    
+    if (termino === "") return;
+
+    //aqui buscamos el producto en el array original
+    const productoEncontrado = productos.find(p => 
+        p.nombre.toLowerCase().includes(termino)
+    );
+
+    if (productoEncontrado) {
+        //buscamos el ID correspondiente (producto-1, producto-2...)
+        const elementoHTML = document.getElementById(`producto-${productoEncontrado.id}`);
+        
+        if (elementoHTML) {
+            //la pantalla baja
+            elementoHTML.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            //un efecto visual
+            elementoHTML.style.outline = "3px solid #6E2391";
+            setTimeout(() => {
+                elementoHTML.style.outline = "none";
+            }, 2000);
+            
+            mostrarNotificacion(`Encontramos: ${productoEncontrado.nombre}`);
+        }
+    } else {
+        mostrarNotificacion("No se encontró ningún producto con ese nombre", "error");
+    }
+}
+
+//el evento al presionar Enter
+inputBusqueda.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        ejecutarBusqueda();
+    }
+});
+
+// Evento al hacer clic en la lupa
+btnLupa.addEventListener('click', ejecutarBusqueda);
+
+
+
+
+
+
 // Función agregar al carrito
 function agregarAlCarrito(idProducto) {
     const producto = productos.find(p => p.id === idProducto); //busca el producto en el array productos
@@ -340,22 +390,52 @@ function mostrarMensajeGracias() {
 }
 
 //Función para mostrar notificaciones
+//function mostrarNotificacion(mensaje, tipo = "success") {
+    //const notificacion = document.createElement('div');
+    //notificacion.className = `notificacion ${tipo}`;
+    //notificacion.textContent = mensaje;
+    
+    //document.body.appendChild(notificacion);
+    
+    //setTimeout(() => {
+        //notificacion.classList.add('salida');
+        //setTimeout(() => {
+            //if (notificacion.parentNode) {
+                //notificacion.parentNode.removeChild(notificacion);
+            //}
+        //}, 300);
+    //}, 3000);
+//}
+
+
+//Función para mostrar notificaciones con toastify
 function mostrarNotificacion(mensaje, tipo = "success") {
-    const notificacion = document.createElement('div');
-    notificacion.className = `notificacion ${tipo}`;
-    notificacion.textContent = mensaje;
-    
-    document.body.appendChild(notificacion);
-    
-    setTimeout(() => {
-        notificacion.classList.add('salida');
-        setTimeout(() => {
-            if (notificacion.parentNode) {
-                notificacion.parentNode.removeChild(notificacion);
-            }
-        }, 300);
-    }, 3000);
+    //colores
+    const colores = {
+        success: "linear-gradient(to right, #6E2391, #9b59b6)",
+        error: "linear-gradient(to right, #ff5f6d, #ffc371)",
+        warning: "linear-gradient(to right, #f39c12, #f1c40f)",
+        info: "linear-gradient(to right, #00b09b, #96c93d)"
+    };
+
+    Toastify({
+        text: mensaje,
+        duration: 3000,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true, 
+        style: {
+            background: colores[tipo] || colores.success,
+            fontFamily: "Poppins, sans-serif",
+            borderRadius: "8px"
+        },
+        onClick: function(){} //un callback después de hacer clic
+    }).showToast();
 }
+
+
+
 
 //Función para mostrar/ocultar el carrito
 function toggleCarrito() {

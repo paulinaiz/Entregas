@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poly:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
 
@@ -21,9 +22,16 @@
             <!-- Información de contacto y acciones -->
             <div class="contacto-acciones">
                 
-                <button type="button" class="lupa">
+                <!-- <button type="button" class="lupa">
                     <img src="imagenes/lupa.png" alt="Buscar" />
-                </button>
+                </button> -->
+
+                <div class="buscador-contenedor">
+                    <input type="text" id="input-busqueda" placeholder="Buscar producto..." class="input-oculto">
+                    <button type="button" class="lupa" id="btn-lupa">
+                        <img src="imagenes/lupa.png" alt="Buscar" />
+                    </button>
+                </div>
                 
                 <button type="button" class="carrito">
                     <a href="/html/carrito.html"><img src="imagenes/carrito-de-compras.png" alt="Buscar" /> <span id="cuenta-carrito">0</span> </a>
@@ -258,7 +266,7 @@
 
 
 
-
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="script1.js"></script>
     
 </body>

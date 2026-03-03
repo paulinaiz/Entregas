@@ -301,11 +301,17 @@ function mostrarModalConfirmacion(subtotal, descuento, costoEnvio, totalFinal, t
 }
 
 
-//Función para finalizar la compra
+// Función para finalizar la compra
 function finalizarCompra() {
     mostrarAnimacionProcesamiento();
 
-    setTimeout(() => {
+    const procesarPago = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve("Pago procesado");
+        }, 2000);
+    });
+
+    procesarPago.then(() => {
         for (let item of carrito) {
             const producto = productos.find(p => p.id === item.id);
             if (producto) {
@@ -323,9 +329,9 @@ function finalizarCompra() {
         if (modalCarrito && !modalCarrito.classList.contains('oculto')) {
             actualizarCarritoDOM();
         }
-
-    }, 2000);
+    });
 }
+
 
 //Función para mostrar animación de procesamiento
 function mostrarAnimacionProcesamiento() {
@@ -389,23 +395,6 @@ function mostrarMensajeGracias() {
     });
 }
 
-//Función para mostrar notificaciones
-//function mostrarNotificacion(mensaje, tipo = "success") {
-    //const notificacion = document.createElement('div');
-    //notificacion.className = `notificacion ${tipo}`;
-    //notificacion.textContent = mensaje;
-    
-    //document.body.appendChild(notificacion);
-    
-    //setTimeout(() => {
-        //notificacion.classList.add('salida');
-        //setTimeout(() => {
-            //if (notificacion.parentNode) {
-                //notificacion.parentNode.removeChild(notificacion);
-            //}
-        //}, 300);
-    //}, 3000);
-//}
 
 
 //Función para mostrar notificaciones con toastify

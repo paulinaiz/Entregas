@@ -1,0 +1,114 @@
+[
+    {
+        "id": 1,
+        "nombre": "Galletas de arandanos",
+        "precio": 2500,
+        "stock": 12,
+        "imagen": "tres-galletas-arandano.png",
+        "descripcion": "Deliciosas galletas con arándanos naturales"
+    },
+    {
+        "id": 2,
+        "nombre": "Galletas de vainilla",
+        "precio": 2100,
+        "stock": 11,
+        "imagen": "tres-gralletas-vainilla.png",
+        "descripcion": "Suaves galletas con esencia de vainilla"
+    },
+    {
+        "id": 3,
+        "nombre": "Galletas con chispas de chocolate",
+        "precio": 2500,
+        "stock": 9,
+        "imagen": "tres-galletas-chispas-de-chocolate.png",
+        "descripcion": "Galletas con chispas de chocolate semi-amargo"
+    },
+    {
+        "id": 4,
+        "nombre": "Muffin de frambuesa",
+        "precio": 1800,
+        "stock": 14,
+        "imagen": "muffin-frambuesa.png",
+        "descripcion": "Esponjoso muffin con frambuesas frescas"
+    },
+    {
+        "id": 5,
+        "nombre": "Muffin de arandanos",
+        "precio": 1800,
+        "stock": 7,
+        "imagen": "muffin-arandanos.png",
+        "descripcion": "Muffin con arándanos jugosos"
+    },
+    {
+        "id": 6,
+        "nombre": "Muffin de vainilla",
+        "precio": 1800,
+        "stock": 5,
+        "imagen": "muffin-de-vainilla.png",
+        "descripcion": "Clásico muffin de vainilla"
+    },
+    {
+        "id": 7,
+        "nombre": "Tartaleta de maracuya y mango",
+        "precio": 3000,
+        "stock": 25,
+        "imagen": "tartaleta-maracuya-mango.png",
+        "descripcion": "Tartaleta con maracuyá y mango"
+    },
+    {
+        "id": 8,
+        "nombre": "Tartaleta de kiwi frutilla arandano",
+        "precio": 3000,
+        "stock": 8,
+        "imagen": "tartaletta-kiwi-frutilla-arandano.png",
+        "descripcion": "Tartaleta con kiwi, frutilla y arándano"
+    },
+    {
+        "id": 9,
+        "nombre": "Tartaleta de frutilla arandano",
+        "precio": 3000,
+        "stock": 15,
+        "imagen": "tartaletta-frutilla-arandano.png",
+        "descripcion": "Tartaleta con frutilla y arándano"
+    },
+    {
+        "id": 10,
+        "nombre": "Tartaleta de frutilla",
+        "precio": 3000,
+        "stock": 21,
+        "imagen": "tartaletta-frutilla.png",
+        "descripcion": "Tartaleta clásica de frutilla"
+    },
+    {
+        "id": 11,
+        "nombre": "Tartaleta de limon",
+        "precio": 3000,
+        "stock": 11,
+        "imagen": "tartaletta-limon.png",
+        "descripcion": "Tartaleta de limón con merengue"
+    },
+    {
+        "id": 12,
+        "nombre": "Tartaleta de arandano",
+        "precio": 3000,
+        "stock": 29,
+        "imagen": "tartaletta-arandano.png",
+        "descripcion": "Tartaleta con arándanos enteros"
+    },
+    {
+        "id": 13,
+        "nombre": "Tartaleta de maracuya",
+        "precio": 3000,
+        "stock": 41,
+        "imagen": "tartaletta-maracuya.png",
+        "descripcion": "Tartaleta de maracuyá"
+    },
+    {
+        "id": 14,
+        "nombre": "Tartaleta de manzana",
+        "precio": 3000,
+        "stock": 4,
+        "imagen": "tartaletta-manzana.png",
+        "descripcion": "Tartaleta de manzana caramelizada"
+    }
+]

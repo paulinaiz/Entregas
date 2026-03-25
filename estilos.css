@@ -105,6 +105,60 @@ header {
 }
 
 
+/* BOTÓN LIMPIAR BÚSQUEDA */
+.limpiar-busqueda {
+    background-color: #f0d0ff;
+    border: 1px solid #6E2391;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.8rem;
+    color: #32004A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.limpiar-busqueda:hover {
+    background-color: #6E2391;
+    color: white;
+}
+
+.buscador-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Estilo para cuando hay pocos productos, mantener tamaño fijo */
+.seccion-productos {
+    min-height: 400px;
+}
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .grid-productos {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-productos {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+    }
+}
+
+
+
 
 
 /*MAIN - PORTADA TITULO*/
@@ -492,62 +546,6 @@ header {
     background-color: #5a1c7a;
 }
 
-/*NOTIFICACIONES*/
-/*.notificacion {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    z-index: 3000;
-    font-family: "Poppins", serif;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    animation: slideIn 0.3s ease-out;
-    max-width: 350px;
-}
-
-.notificacion.success {
-    background-color: #6E2391;
-}
-
-.notificacion.error {
-    background-color: #e74c3c;
-}
-
-.notificacion.warning {
-    background-color: #f39c12;
-}
-
-.notificacion.info {
-    background-color: #3498db;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
-
-.notificacion.salida {
-    animation: slideOut 0.3s ease-in forwards;
-}*/
 
 /*HEADER DEL CARRITO*/
 .carrito-header {

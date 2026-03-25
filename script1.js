@@ -1,67 +1,133 @@
-//LISTA PRODUCTOS: id/nombre/precio/stock
-let productos = [
-    {id: 1, nombre: "galletas de arandanos", precio: 2500, stock: 12},
-    {id: 2, nombre: "galletas de vainilla", precio: 2100, stock: 11},
-    {id: 3, nombre: "galletas con chispas de chocolate", precio: 2500, stock: 9},
-    {id: 4, nombre: "Muffin de frambuesa", precio: 1800, stock: 14},
-    {id: 5, nombre: "Muffin de arandanos", precio: 1800, stock: 7},
-    {id: 6, nombre: "Muffin de vainilla", precio: 1800, stock: 5},
-    {id: 7, nombre: "Tartaleta de maracuya y mango", precio: 3000, stock: 25},
-    {id: 8, nombre: "Tartaleta de kiwi frutilla arandano", precio: 3000, stock: 8},
-    {id: 9, nombre: "Tartaleta de frutilla arandano", precio: 3000, stock: 15},
-    {id: 10, nombre: "Tartaleta de frutilla", precio: 3000, stock: 21},
-    {id: 11, nombre: "Tartaleta de limon", precio: 3000, stock: 11},
-    {id: 12, nombre: "Tartaleta de arandano", precio: 3000, stock: 29},
-    {id: 13, nombre: "Tartalerta de maracuya", precio: 3000, stock: 41},
-    {id: 14, nombre: "Tartaleta de manzana", precio: 3000, stock: 4}
-];
-
-//----------------------------------------------------------------------------
-
 //VARIABLES
 let carrito = [];
+let productos = [];
+let busquedaActiva = false; 
+let ultimoTerminoBusqueda = "";
 
 //----------------------------------------------------------------------------
+
+
 
 //FUNCIONES
 
-// Función buscador palabras clave con la lupa
-const inputBusqueda = document.getElementById('input-busqueda');
-const btnLupa = document.getElementById('btn-lupa');
 
-function ejecutarBusqueda() {
-    const termino = inputBusqueda.value.toLowerCase().trim();
-    
-    if (termino === "") return;
+//funcion para cargar el json
+async function cargarProductos() {
+    try {
+        const response = await fetch('productos.json');
+        const data = await response.json();
 
-    //aqui buscamos el producto en el array original
-    const productoEncontrado = productos.find(p => 
-        p.nombre.toLowerCase().includes(termino)
-    );
+        productos = data;
 
-    if (productoEncontrado) {
-        //buscamos el ID correspondiente (producto-1, producto-2...)
-        const elementoHTML = document.getElementById(`producto-${productoEncontrado.id}`);
-        
-        if (elementoHTML) {
-            //la pantalla baja
-            elementoHTML.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            //un efecto visual
-            elementoHTML.style.outline = "3px solid #6E2391";
-            setTimeout(() => {
-                elementoHTML.style.outline = "none";
-            }, 2000);
-            
-            mostrarNotificacion(`Encontramos: ${productoEncontrado.nombre}`);
-        }
-    } else {
-        mostrarNotificacion("No se encontró ningún producto con ese nombre", "error");
+        renderizarProductos(productos); 
+    } catch (error) {
+        mostrarNotificacion("Error cargando productos", "error");
     }
 }
 
+
+// Función para guardar el estado en el historial
+function guardarEstadoHistorial(termino) {
+    const url = new URL(window.location);
+    if (termino && termino !== "") {
+        url.searchParams.set('busqueda', termino);
+    } else {
+        url.searchParams.delete('busqueda');
+    }
+    window.history.pushState({ busqueda: termino || null }, '', url);
+}
+
+
+const inputBusqueda = document.getElementById('input-busqueda');
+const btnLupa = document.getElementById('btn-lupa');
+
+
+// Función para realizar la búsqueda
+function ejecutarBusqueda(actualizarHistorial = true) {
+    const termino = inputBusqueda.value.toLowerCase().trim();
+    
+    if (termino === "") {
+        renderizarProductos(productos);
+        busquedaActiva = false;
+        if (actualizarHistorial) {
+            guardarEstadoHistorial("");
+        }
+        return;
+    }
+
+    const productosFiltrados = productos.filter(p => 
+        p.nombre.toLowerCase().includes(termino)
+    );
+
+    if (productosFiltrados.length > 0) {
+        renderizarProductos(productosFiltrados);
+        busquedaActiva = true;
+        
+        if (actualizarHistorial) {
+            guardarEstadoHistorial(termino);
+        }
+        
+        // Scroll al producto si solo hay uno
+        if (productosFiltrados.length === 1) {
+            const elemento = document.getElementById(`producto-${productosFiltrados[0].id}`);
+            if (elemento) elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    } else {
+        const contenedor = document.getElementById('contenedor-productos');
+        contenedor.innerHTML = `
+            <div style="grid-column:1/-1; text-align:center; padding: 3rem;">
+                <p style="font-family: 'Poppins', sans-serif; font-size: 1.2rem; color: #666;">
+                    No se encontraron productos con "<strong>${termino}</strong>"
+                </p>
+            </div>
+        `;
+        
+        busquedaActiva = true;
+        if (actualizarHistorial) {
+            guardarEstadoHistorial(termino);
+        }
+        mostrarNotificacion("No se encontraron productos con ese nombre", "error");
+    }
+}
+
+//Función para resetear la búsqueda y volver a todos los productos
+function resetearBusqueda() {
+    inputBusqueda.value = "";
+    renderizarProductos(productos);
+    busquedaActiva = false;
+    guardarEstadoHistorial("");
+}
+
+//flecha atrás/adelante del navegador
+window.addEventListener('popstate', (event) => {
+    const busqueda = event.state?.busqueda;
+    
+    if (busqueda && busqueda !== "") {
+        inputBusqueda.value = busqueda;
+        ejecutarBusqueda(false);
+    } else {
+        resetearBusqueda();
+    }
+});
+
+// Evento al escribir en la lupa, se borra todo, vuelven todos los productos
+inputBusqueda.addEventListener('input', () => {
+    if (inputBusqueda.value === "" && busquedaActiva) {
+        resetearBusqueda();
+    }
+});
+
+
+// Agregar un botón "Limpiar búsqueda" o mostrar todos al borrar
+inputBusqueda.addEventListener('input', () => {
+    if (inputBusqueda.value === "") {
+        renderizarProductos(productos);
+    }
+});
+
+
 //el evento al presionar Enter
-inputBusqueda.addEventListener('keypress', (e) => {
+inputBusqueda.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         ejecutarBusqueda();
     }
@@ -72,46 +138,63 @@ btnLupa.addEventListener('click', ejecutarBusqueda);
 
 
 
+//funcion para las cards
+function renderizarProductos(productos) {
+    const contenedor = document.getElementById('contenedor-productos');
+    contenedor.innerHTML = '';
+
+    productos.forEach(producto => {
+        const card = document.createElement('article');
+        card.classList.add('card-producto');
+        card.id = `producto-${producto.id}`;
+
+        card.innerHTML = `
+            <div class="contenido-card">
+                <img src="imagenes/${producto.imagen}" alt="${producto.nombre}">
+                <h2>${producto.nombre}</h2>
+                <img src="imagenes/libre_de_gluten.png" class="icon-sin-gluten">
+                <p>$${producto.precio.toLocaleString()}</p>
+            </div>
+            <button class="btn-agregar" data-id="${producto.id}">Añadir al carrito</button>
+        `;
+
+        contenedor.appendChild(card);
+    });
+}
 
 
 
-// Función agregar al carrito
+
+//Función agregar al carrito
 function agregarAlCarrito(idProducto) {
-    const producto = productos.find(p => p.id === idProducto); //busca el producto en el array productos
+    const producto = productos.find(p => p.id === idProducto);
     
-    //verificar si el producto existe
-    if (!producto) {
-        console.error("Producto no encontrado");
-        return;
-    }
-    
-    //verificamos si hay stock disponible
+    if (!producto) return false;
+
     if (producto.stock <= 0) {
-        mostrarNotificacion("Lo sentimos, este producto está agotado");
-        return;
+        mostrarNotificacion("Lo sentimos, este producto está agotado", "error");
+        return false;
     }
-    
-    //se busca si el producto ya está en el carrito
+
     const productoEnCarrito = carrito.find(item => item.id === idProducto);
-    
-    // si es verdad que el producto existe en el carrito
+
     if (productoEnCarrito) {
         if (productoEnCarrito.cantidad < producto.stock) {
             productoEnCarrito.cantidad++;
         } else {
-            mostrarNotificacion("No hay suficiente stock disponible");
-            return;
+            mostrarNotificacion("No hay suficiente stock disponible", "error");
+            return false;
         }
-    } else {                           //si no existe en el carrito
-        if (producto.stock > 0) {
-            carrito.push({            //agrega un nuevo objeto al array carrito
-                id: producto.id,
-                nombre: producto.nombre,
-                precio: producto.precio,
-                cantidad: 1
-            });
-        }
+    } else {
+        carrito.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: 1
+        });
     }
+
+    return true;
 }
 
 
@@ -465,6 +548,8 @@ function actualizarCarritoDOM() {
     let subtotal = 0;
     
     carrito.forEach(item => {
+        const producto = productos.find(p => p.id === item.id);
+
         const productoTotal = item.precio * item.cantidad;
         subtotal += productoTotal;
         
@@ -472,7 +557,7 @@ function actualizarCarritoDOM() {
         fila.innerHTML = `
             <td>
                 <div class="producto-info">
-                    <img src="imagenes/${getImagenProducto(item.id)}" alt="${item.nombre}">
+                    <img src="imagenes/${producto.imagen}" alt="${item.nombre}">
                     <div class="producto-detalles">
                         <h3>${item.nombre}</h3>
                         <p>$${item.precio.toLocaleString()}</p>
@@ -518,27 +603,7 @@ function actualizarCarritoDOM() {
     actualizarCuentaCarrito();
 }
 
-//Función auxiliar para obtener la imagen del producto
-function getImagenProducto(id) {
-    const imagenes = {
-        1: 'tres-galletas-arandano.png',
-        2: 'tres-gralletas-vainilla.png',
-        3: 'tres-galletas-chispas-de-chocolate.png',
-        4: 'muffin-frambuesa.png',
-        5: 'muffin-arandanos.png',
-        6: 'muffin-de-vainilla.png',
-        7: 'tartaleta-maracuya-mango.png',
-        8: 'tartaletta-kiwi-frutilla-arandano.png',
-        9: 'tartaletta-frutilla-arandano.png',
-        10: 'tartaletta-frutilla.png',
-        11: 'tartaletta-limon.png',
-        12: 'tartaletta-arandano.png',
-        13: 'tartaletta-maracuya.png',
-        14: 'tartaletta-manzana.png'
-    };
-    
-    return imagenes[id] || 'libre_de_gluten.png';
-}
+
 
 //Función para modificar cantidad en el carrito
 function modificarCantidad(id, accion) {
@@ -583,22 +648,31 @@ function eliminarDelCarrito(id) {
 
 // INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', () => {
+
+    cargarProductos();
+
     //Cargar carrito desde localStorage
     cargarCarritoDesdeLocalStorage();
     
     //Actualizar cuenta del carrito inicial
     actualizarCuentaCarrito();
     
-    //Conectar botones "Añadir al carrito"
-    const botonesAgregar = document.querySelectorAll('.btn-agregar');
-    botonesAgregar.forEach((boton, index) => {
-        const idProducto = index + 1;
-        boton.addEventListener('click', () => {
-            agregarAlCarrito(idProducto);
-            guardarCarritoEnLocalStorage();
-            actualizarCuentaCarrito();
-            mostrarNotificacion('Producto agregado al carrito');
-        });
+    document.addEventListener('click', (e) => {
+
+        //Detectar click en botón "Agregar"
+        if (e.target.classList.contains('btn-agregar')) {
+
+            const id = parseInt(e.target.dataset.id);
+
+            const agregado = agregarAlCarrito(id);
+
+            if (agregado) {
+                guardarCarritoEnLocalStorage();
+                actualizarCuentaCarrito();
+                mostrarNotificacion('Producto agregado al carrito');
+            }
+        }
+
     });
     
     //conectar ícono del carrito
